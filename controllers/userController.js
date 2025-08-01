@@ -110,3 +110,42 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: 'Failed to delete user' });
   }
 };
+
+// Add after existing functions
+export const getUsersWithPagination = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 7;
+    const search = req.query.search || '';
+    const skip = (page - 1) * limit;
+
+    const searchQuery = search ? {
+      $or: [
+        { fullName: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { role: { $regex: search, $options: 'i' } }
+      ]
+    } : {};
+
+    const users = await User.find(searchQuery, '-password')
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
+
+    const total = await User.countDocuments(searchQuery);
+    const totalPages = Math.ceil(total / limit);
+
+    res.json({
+      users,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalUsers: total,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch users' });
+  }
+};
