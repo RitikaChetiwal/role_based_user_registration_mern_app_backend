@@ -83,7 +83,7 @@ export const updateUser = async (req, res) => {
 
     // Prepare update data
     const updateData = { fullName, email, role };
-    
+
     // Only hash password if it's provided
     if (password && password.trim() !== '') {
       updateData.password = await bcrypt.hash(password, 10);
@@ -100,7 +100,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 

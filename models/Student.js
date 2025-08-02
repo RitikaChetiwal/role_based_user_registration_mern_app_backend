@@ -11,14 +11,14 @@ const studentSchema = new mongoose.Schema({
     unique: true
   },
   phone: {
-    type: String,
+    type: Number,
     required: true
   },
   age: {
     type: Number,
     required: true,
-    min: 15,
-    max: 100
+    min: 17,
+    max: 28
   },
   course: {
     type: String,
