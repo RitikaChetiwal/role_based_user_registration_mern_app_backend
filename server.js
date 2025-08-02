@@ -4,9 +4,10 @@ import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
-import User from './models/User.js';
-import bcrypt from 'bcrypt';
+// import User from './models/User.js';
+// import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import chartRoutes from './routes/chartRoutes.js';
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/students', studentRoutes);
+app.use('/charts', chartRoutes);
 
 app.get('/', (req, res) => {
     res.send("hello")
