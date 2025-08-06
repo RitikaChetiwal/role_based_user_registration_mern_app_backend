@@ -15,7 +15,20 @@ export const protect = async (req, res, next) => {
   }
 };
 
+// Modify adminOnly middleware
 export const adminOnly = (req, res, next) => {
-  if (req.user.role !== 'admin') return res.status(403).json({ msg: 'Admins only' });
-  next();
+  if (req.user.role === 'admin' || req.user.role === 'superadmin') {
+    next();
+  } else {
+    res.status(403).json({ msg: 'Admins only' });
+  }
+};
+
+// Add superadminOnly middleware
+export const superadminOnly = (req, res, next) => {
+  if (req.user.role === 'superadmin') {
+    next();
+  } else {
+    res.status(403).json({ msg: 'Superadmin only' });
+  }
 };

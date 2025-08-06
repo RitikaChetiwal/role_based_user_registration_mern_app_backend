@@ -85,7 +85,7 @@ export const updateUser = async (req, res) => {
     const updateData = { fullName, email, role };
 
     // Only hash password if it's provided
-    if (password && password.trim() !== '') {
+    if (password && password.trim() !== '') {h
       updateData.password = await bcrypt.hash(password, 10);
     }
 
